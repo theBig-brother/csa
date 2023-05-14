@@ -1,0 +1,11 @@
+代码输出顺序如下：
+
+"async1 start" - async1()函数被调用并打印该行日志。
+"promise2" - async1()函数内的await promise2()表达式返回一个Promise并被执行，打印该行日志。
+"script end" - async1()函数内的console.log('script end')语句被执行并打印该行日志。
+"async1 end" - promise2()函数内的Promise被解析后，console.log('async1 end')语句被执行并打印该行日志。
+"setTimeout start" - setTimeout()函数被调用并将一个回调函数添加到事件队列中，计时器结束后该回调函数会在下一个事件循环中执行，打印该行日志。
+"promise1 start" - 在上述计时器结束后，回调函数内的Promise被创建并立即执行，打印该行日志。
+"setTimeout end" - 回调函数内的console.log('setTimeout end')语句被执行并打印该行日志。
+"promise1 end" - Promise内的then()回调函数被执行并打印该行日志。
+输出顺序的原因是：JavaScript是单线程执行的，所有的任务都被加入到一个事件队列中。当调用setTimeout()时，回调函数被添加到事件队列中，但不会立即执行，而是在计时器结束后在下一个事件循环中执行。Promise的行为类似于setTimeout()，它也将回调函数添加到事件队列中，但是在当前事件循环结束时就会执行它的回调函数，因此在setTimeout()回调函数后面的Promise回调函数会在其前面执行。在async/await语法中，await表达式会暂停函数执行并等待Promise解析，这也是为什么在async1()函数内执行await promise2()表达式后，它在console.log('script end')语句之前打印了日志。
