@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Todo List with Vue 2</title>
+  <style>
+    /* 自定义样式 */
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Todo List</h1>
+    <input type="text" v-model="newTodo" placeholder="输入待办事项">
+    <button @click="addTodo">添加</button>
+    <ul>
+      <li v-for="(todo, index) in todos">
+        {{ todo }}
+        <button @click="deleteTodo(index)">删除</button>
+      </li>
+    </ul>
+  </div>
+
+  <script src="./vue2.js"></script>
+  <script>
+    // 在此处编写Vue的逻辑代码
+    new Vue({
+      el: '#app',
+      data: {
+        todos: ['任务1', '任务2', '任务3'],
+        newTodo: ''
+      },
+      methods: {
+        addTodo: function() {
+          if (this.newTodo.trim() !== '') {
+            this.todos.push(this.newTodo);
+            this.newTodo = '';
+          }
+        },
+        deleteTodo: function(index) {
+          this.todos.splice(index, 1);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
